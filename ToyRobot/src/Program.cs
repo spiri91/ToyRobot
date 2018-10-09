@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using Pipe4Net;
 using ToyRobot.misc;
+using ToyRobot.src.Cell;
 using ToyRobot.src.Logger;
+using ToyRobot.src.Table;
 
 namespace ToyRobot
 {
@@ -21,10 +25,16 @@ namespace ToyRobot
 public class App
 {
     private readonly Ilogger logger;
+    private readonly Table table;
+    private List<Cell> cells;
 
     public App() : this(new Logger())
     {
-            
+        cells = new List<Cell>();
+
+        25.GenerateForLoop(() => cells.Add(new EmptyCell()));
+
+        this.table = new Table(logger, cells);
     }
 
     public App(Ilogger logger)
@@ -37,9 +47,7 @@ public class App
         logger.Log(Messages.IntroInfo);
         logger.EmptyLines(2);
         logger.ShowRobot();
-        logger.EmptyLines(4);
-        logger.ShowTable();
-        logger.EmptyLines(3);
-        logger.Arrow();
+        this.table.DrawYourself();
+
     }
 }
