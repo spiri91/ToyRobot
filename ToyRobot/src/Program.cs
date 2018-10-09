@@ -18,25 +18,24 @@ namespace ToyRobot
 
         static void Main()
         {
-            new App().Run();
+            new Orchestrator().Run();
         }
     }
 }
 
-
-public class App
+public class Orchestrator
 {
     private readonly Table table;
     private List<Cell> cells;
     private Boss boss;
     private Ilogger logger;
 
-    public App() : this(new Logger())
+    public Orchestrator() : this(new Logger())
     {
         
     }
 
-    public App(Ilogger logger)
+    public Orchestrator(Ilogger logger)
     {
         this.logger = logger;
         cells = new List<Cell>();
@@ -45,31 +44,11 @@ public class App
         cells.Add(robot);
 
         this.table = new Table(logger, cells);
-
         this.boss = new Boss(logger, table, robot);
     }
 
     public void Run()
     {
-        boss.ShowTemplate();
-        while (true)
-        {
-            var commandAsString = logger.ReadCommand();
-
-            Command.Parse(commandAsString).PipeWith(boss.GiveOrder);
-        }
-    }
-
-    private void Template()
-    {
-        logger.Log(Messages.IntroInfo);
-        logger.EmptyLines(2);
-        logger.ShowRobot();
-        this.table.DrawYourself();
-
-        logger.EmptyLines(2);
-        logger.Log(Messages.WaintingInstructions);
-        logger.EmptyLine();
-        logger.Arrow();
+        boss.TakeOver();
     }
 }

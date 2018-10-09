@@ -1,13 +1,33 @@
-﻿namespace ToyRobot.misc
+﻿using System;
+
+namespace ToyRobot.misc
 {
-    public static class CardinalPoints
+    public class PointsTo
     {
-        public const string South = "S";
+        public Cardinal cardinal { get; private set; }
 
-        public const string West = "W";
+        public PointsTo(Cardinal cardinal)
+        {
+            this.cardinal = cardinal;
+        }
 
-        public const string Est = "E";
+        internal PointsTo GetLeftDirection()
+        {
+            throw new NotImplementedException();
+        }
 
-        public const string North = "N";
+        internal PointsTo GetRightDirection()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public enum Cardinal
+    {
+        North = 1,
+        South = 3,
+        Est = 2,
+        West = 4,
+        Nowhere = 0
     }
 }

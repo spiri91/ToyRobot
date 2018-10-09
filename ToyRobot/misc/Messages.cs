@@ -16,6 +16,7 @@ namespace ToyRobot.misc
         ";
 
         public const string Robot = @"
+
                             (\    |@@|
                           (__/\__ \--/ __
                              \___|----|  |   __
@@ -23,13 +24,15 @@ namespace ToyRobot.misc
                                  /\__/\ \__O (__
                                 (--/\--)    \__/
                                 _)(  )(_
-                               `---''---`";
+                               `---''---`
+                                           ";
 
         public static string Arrow = @">>-----> ";
 
         public static string CellRobot = @"<X>";
 
         public static string EmptyTable = @"
+
                   |¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|
                   |  {1} |  {2} |  {3} |  {4} |  {5} |
                   |______|______|______|______|______|
@@ -44,7 +47,8 @@ namespace ToyRobot.misc
                   |______|______|______|______|______|
                   |      |      |      |      |      |
                   | {21} | {22} | {23} | {24} | {25} |
-                  |______|______|______|______|______|";
+                  |______|______|______|______|______|
+                ";
 
         public static string WaintingInstructions = "Waiting instructions...";
     }

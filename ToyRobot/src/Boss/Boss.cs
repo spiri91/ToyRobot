@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Pipe4Net;
+using System;
+using System.Diagnostics;
+using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
 
@@ -23,6 +26,7 @@ namespace ToyRobot.src.Boss
             logger.Log(Messages.IntroInfo);
             logger.EmptyLines(2);
             logger.ShowRobot();
+            logger.EmptyLines(2);
             this.table.DrawYourself();
 
             logger.EmptyLines(2);
@@ -34,6 +38,24 @@ namespace ToyRobot.src.Boss
         public void GiveOrder(Command.Command command)
         {
             
+        }
+
+        public void TakeOver()
+        {
+            this.ShowTemplate();
+            while (true)
+            {
+                var commandAsString = logger.ReadCommand();
+
+                CommandParser.Parse(commandAsString)
+                    .Pipe(this.CheckIfValidOrder)
+                    .PipeWith(this.GiveOrder);
+            }
+        }
+
+        private Command.Command CheckIfValidOrder(Command.Command arg)
+        {
+            return null;
         }
     }
 }
