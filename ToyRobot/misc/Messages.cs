@@ -50,6 +50,6 @@ namespace ToyRobot.misc
                   |______|______|______|______|______|
                 ";
 
-        public static string WaintingInstructions = "Waiting instructions...";
+        public static string WaitingInstructions = "Waiting instructions...";
     }
 }

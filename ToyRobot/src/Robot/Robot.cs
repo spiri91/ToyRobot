@@ -7,6 +7,8 @@ namespace ToyRobot.src.Robot
     {
         public PointsTo direction { get; private set; }
 
+        public event EventHandler<MessageEventArgs> Complain;
+
         public override string DrawYourself(string str)
         {
             var toReplace = "{" + Index + "}";
@@ -54,6 +56,11 @@ namespace ToyRobot.src.Robot
         internal void Curse()
         {
             throw new NotImplementedException();
+        }
+
+        internal bool DidYouMove()
+        {
+            return true;
         }
     }
 }
