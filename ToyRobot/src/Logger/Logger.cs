@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Pipe4Net;
+using ToyRobot.misc;
 
 namespace ToyRobot.src.Logger
 {
@@ -9,15 +10,7 @@ namespace ToyRobot.src.Logger
     {
         public void ShowRobot()
         {
-            Console.Write(@"
-                            (\    |@@|
-                          (__/\__ \--/ __
-                             \___|----|  |   __
-                                 \ }{ /\ )_ / _\
-                                 /\__/\ \__O (__
-                                (--/\--)    \__/
-                                _)(  )(_
-                               `---''---`");
+            this.Log(Messages.Robot);
 
         }
 
@@ -28,7 +21,7 @@ namespace ToyRobot.src.Logger
 
         public void EmptyLine()
         {
-            Console.Write(Environment.NewLine);
+            this.Log(Environment.NewLine);
         }
 
         public void EmptyLines(int value)
@@ -38,28 +31,28 @@ namespace ToyRobot.src.Logger
 
         public void Arrow()
         {
-            Console.Write(@">>------> ");
+            this.Log(Messages.Arrow);
         }
 
         public void ShowTable()
         {
             Console.WriteLine(
                 @"
-                  |¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯|
-                  |      |      |      |      |     |
-                  |______|______|______|______|_____|
-                  |      |      |      |      |     |
-                  |      |      |      |      |     |
-                  |______|______|______|______|_____|
-                  |      |      |      |      |     |
-                  |      |      |      |      |     |
-                  |______|______|______|______|_____|
-                  |      |      |      |      |     |
-                  |      |      |      |      |     |
-                  |______|______|______|______|_____|
-                  |      |      |      |      |     |
-                  |      |      |      |      |     |
-                  |______|______|______|______|_____|
+                  |¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|
+                  |  {R} |      |      |      |      |
+                  |______|______|______|______|______|
+                  |      |      |      |      |      |
+                  |      |      |      |      |      |
+                  |______|______|______|______|______|
+                  |      |      |      |      |      |
+                  |      |      |      |      |      |
+                  |______|______|______|______|______|
+                  |      |      |      |      |      |
+                  |      |      |      |      |      |
+                  |______|______|______|______|______|
+                  |      |      |      |      |      |
+                  |      |      |      |      |      |
+                  |______|______|______|______|______|
                 "
                 );
         }
