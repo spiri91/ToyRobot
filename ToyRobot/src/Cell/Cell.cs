@@ -25,7 +25,6 @@ namespace ToyRobot.src.Cell
             var toReplace = "{" + Index + "}";
             var replaceWith = toReplace.toSpaces();
 
-
             str = str.Replace(toReplace, replaceWith);
 
             return str;

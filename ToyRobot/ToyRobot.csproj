@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="lib\" />
-    <Folder Include="src\Command\" />
     <Folder Include="test\" />
   </ItemGroup>
 

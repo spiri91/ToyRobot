@@ -27,6 +27,8 @@ namespace ToyRobot.misc
 
         public static string Arrow = @">>-----> ";
 
+        public static string CellRobot = @"<X>";
+
         public static string EmptyTable = @"
                   |¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|¯¯¯¯¯¯|
                   |  {1} |  {2} |  {3} |  {4} |  {5} |
@@ -43,5 +45,7 @@ namespace ToyRobot.misc
                   |      |      |      |      |      |
                   | {21} | {22} | {23} | {24} | {25} |
                   |______|______|______|______|______|";
+
+        public static string WaintingInstructions = "Waiting instructions...";
     }
 }
