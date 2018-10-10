@@ -29,5 +29,10 @@ namespace ToyRobot.src.Cell
 
             return str;
         }
+
+        public void SetIndex(int index)
+        {
+            this.Index = index;
+        }
     }
 }

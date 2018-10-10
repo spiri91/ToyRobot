@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Pipe4Net;
 using ToyRobot.misc;
+using ToyRobot.src.Logger;
 
-namespace ToyRobot.src.Logger
+namespace ToyRobot.Logger
 {
     public class Logger : Ilogger
     {
@@ -37,6 +36,11 @@ namespace ToyRobot.src.Logger
         public string ReadCommand()
         {
             return Console.ReadLine();
+        }
+
+        public void Clear()
+        {
+            Console.Clear();
         }
     }
 }

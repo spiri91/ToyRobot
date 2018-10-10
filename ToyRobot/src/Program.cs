@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Pipe4Net;
 using ToyRobot.Command;
+using ToyRobot.Logger;
 using ToyRobot.misc;
 using ToyRobot.src.Boss;
 using ToyRobot.src.Cell;

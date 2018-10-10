@@ -62,5 +62,15 @@ namespace ToyRobot.src.Robot
         {
             return true;
         }
+
+        public void Move()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Chill()
+        {
+            
+        }
     }
 }

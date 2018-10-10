@@ -9,7 +9,7 @@ namespace ToyRobot.src.Table
 {
     public class Table
     {
-        private IList<Cell.Cell> Cells;
+        public IList<Cell.Cell> Cells { get; private set; }
         private Ilogger _logger;
 
         public Table(Ilogger logger, IList<Cell.Cell> cells)
@@ -31,6 +31,21 @@ namespace ToyRobot.src.Table
             }
 
             _logger.Log(table);
+        }
+
+        public void SwapCellsIndex(int indexA, int indexB)
+        {
+            var temp = Cells[indexA].Index;
+
+            Cells[indexA].SetIndex(Cells[indexB].Index);
+
+            Cells[indexB].SetIndex(temp);
+
+        }
+
+        public bool CanMoveThere(Command.Command command)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

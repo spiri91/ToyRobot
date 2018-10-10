@@ -17,5 +17,7 @@ namespace ToyRobot.src.Logger
         void Arrow();
 
         string ReadCommand();
+
+        void Clear();
     }
 }

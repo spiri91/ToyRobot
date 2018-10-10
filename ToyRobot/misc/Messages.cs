@@ -51,5 +51,9 @@ namespace ToyRobot.misc
                 ";
 
         public static string WaitingInstructions = "Waiting instructions...";
+
+        public static string BabyCrying = "Baby don't hurt me.. no more..";
+
+        public static string BadCommand = "Didn't get that.. try again..";
     }
 }

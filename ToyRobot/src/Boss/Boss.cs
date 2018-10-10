@@ -1,5 +1,6 @@
 ﻿using Pipe4Net;
 using System.Diagnostics;
+using System.Linq;
 using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
@@ -73,18 +74,36 @@ namespace ToyRobot.src.Boss
 
         private void LawAndOrder()
         {
+            logger.Clear();
             ReorderCells();
             TakeOver();
         }
 
         private void ReorderCells()
         {
+            var robotIndex = table.Cells.IndexOf(robot);
+            var tableCellWithRobotIndex = table.Cells.Single(x => x.Index == robot.Index);
+            var toSwithIndex = table.Cells.IndexOf(tableCellWithRobotIndex);
 
+            table.SwapCellsIndex(robotIndex, toSwithIndex);
         }
 
         private Command.Command CheckIfValidOrder(Command.Command arg)
         {
-            return null;
+            if (arg is BadCommand)
+            {
+                logger.Log(Messages.BadCommand);
+
+                return new ChillOut();
+            }
+
+            if (false == table.CanMoveThere(arg))
+            {
+                logger.Log(Messages.BabyCrying);
+                return new ChillOut();
+            }
+
+            return arg;
         }
     }
 }
