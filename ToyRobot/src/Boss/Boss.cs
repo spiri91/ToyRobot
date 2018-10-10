@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using ToyRobot.Command;
 using ToyRobot.misc;
+using ToyRobot.src.Cell;
 using ToyRobot.src.Logger;
 using ToyRobot.src.Robot;
 
@@ -65,8 +66,8 @@ namespace ToyRobot.src.Boss
                 var commandAsString = logger.ReadCommand();
 
                 CommandParser.Parse(commandAsString)
-                    .Pipe(this.CheckIfValidOrder)
-                    .PipeWith(this.GiveOrder);
+                    .Pipe(CheckIfValidOrder)
+                    .PipeWith(GiveOrder);
 
                 robot.DidYouMove().IfTrue(LawAndOrder);
             }
@@ -81,11 +82,10 @@ namespace ToyRobot.src.Boss
 
         private void ReorderCells()
         {
-            var robotIndex = table.Cells.IndexOf(robot);
-            var tableCellWithRobotIndex = table.Cells.Single(x => x.Index == robot.Index);
-            var toSwithIndex = table.Cells.IndexOf(tableCellWithRobotIndex);
+            var robotOldIndex = robot.OldIndex;
+            var tableCellWithRobotIndex = table.Cells.Where(c => c is EmptyCell).Single(x => x.Index == robot.Index);
 
-            table.SwapCellsIndex(robotIndex, toSwithIndex);
+            tableCellWithRobotIndex.SetIndex(robotOldIndex);
         }
 
         private Command.Command CheckIfValidOrder(Command.Command arg)
@@ -96,13 +96,7 @@ namespace ToyRobot.src.Boss
 
                 return new ChillOut();
             }
-
-            if (false == table.CanMoveThere(arg))
-            {
-                logger.Log(Messages.BabyCrying);
-                return new ChillOut();
-            }
-
+            
             return arg;
         }
     }

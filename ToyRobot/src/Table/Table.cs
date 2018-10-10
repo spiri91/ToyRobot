@@ -33,19 +33,9 @@ namespace ToyRobot.src.Table
             _logger.Log(table);
         }
 
-        public void SwapCellsIndex(int indexA, int indexB)
+        public void SwapCells(Cell.Cell a, Cell.Cell b)
         {
-            var temp = Cells[indexA].Index;
 
-            Cells[indexA].SetIndex(Cells[indexB].Index);
-
-            Cells[indexB].SetIndex(temp);
-
-        }
-
-        public bool CanMoveThere(Command.Command command)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -5,6 +5,12 @@ namespace ToyRobot.src.Robot
 {
     public class Robot : Cell.Cell
     {
+        public int OldIndex { get; set; }
+
+        public int XIndex { get; protected set; }
+
+        public int YIndex { get; protected set; }
+
         public PointsTo direction { get; private set; }
 
         public event EventHandler<MessageEventArgs> Complain;
@@ -27,6 +33,12 @@ namespace ToyRobot.src.Robot
         public void ChangeXIndex(int xIndex)
         {
             this.XIndex = xIndex;
+        }
+
+        public void ChangeIndex()
+        {
+            this.OldIndex = Index;
+            this.Index = XIndex + (5 * (YIndex-1));
         }
 
         public void ChangeYIndex(int yIndex)

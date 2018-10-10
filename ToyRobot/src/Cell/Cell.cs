@@ -16,10 +16,6 @@ namespace ToyRobot.src.Cell
 
         public int Index { get; protected set; }
 
-        public int XIndex { get; protected set; }
-
-        public int YIndex { get; protected set; }
-
         public virtual string DrawYourself(string str)
         {
             var toReplace = "{" + Index + "}";

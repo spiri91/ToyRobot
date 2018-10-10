@@ -28,6 +28,7 @@ namespace ToyRobot.Command
             robot.ChangeDirection(this.PointingTo);
             robot.ChangeXIndex(this.XPosition);
             robot.ChangeYIndex(this.YPosition);
+            robot.ChangeIndex();
         }
     }
 
