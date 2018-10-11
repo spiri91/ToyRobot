@@ -13,12 +13,16 @@ namespace ToyRobot.misc
 
         internal PointsTo GetLeftDirection()
         {
-            throw new NotImplementedException();
+            var newCardinal = this.cardinal - 1;
+
+            return new PointsTo(newCardinal);
         }
 
         internal PointsTo GetRightDirection()
         {
-            throw new NotImplementedException();
+            var newCardinal = this.cardinal + 1;
+
+            return new PointsTo(newCardinal);
         }
 
         public override string ToString()

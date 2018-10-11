@@ -10,7 +10,6 @@ namespace ToyRobot.Logger
         public void ShowRobot()
         {
             this.Log(Messages.Robot);
-
         }
 
         public void Log(string message)

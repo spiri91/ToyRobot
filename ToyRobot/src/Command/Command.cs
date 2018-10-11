@@ -7,10 +7,12 @@ namespace ToyRobot.Command
 {
     public abstract class Command
     {
-        public abstract void OrderRobot(Robot robot);
+        public abstract void OrderRobot(Robot.Robot robot);
     }
 
-    public class Place : Command
+    public abstract class FizicCommand : Command { }
+
+    public class Place : FizicCommand
     {
         public int XPosition { get; private set; }
         public int YPosition { get; private set; }
@@ -23,7 +25,7 @@ namespace ToyRobot.Command
             this.YPosition = yPosition;
         }
 
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.ChangeDirection(this.PointingTo);
             robot.ChangeXIndex(this.XPosition);
@@ -34,7 +36,7 @@ namespace ToyRobot.Command
 
     public class GoLeft : Command
     {
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.GoLeft();
         }
@@ -42,7 +44,7 @@ namespace ToyRobot.Command
 
     public class GoRight : Command
     {
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.GoRight();
         }
@@ -50,15 +52,15 @@ namespace ToyRobot.Command
 
     public class Report : Command
     {
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.Shout();
         }
     }
 
-    public class Move : Command
+    public class Move : FizicCommand
     {
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.Move();
         }
@@ -66,7 +68,7 @@ namespace ToyRobot.Command
 
     public class BadCommand : Command
     {
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.Curse();
         }
@@ -74,7 +76,7 @@ namespace ToyRobot.Command
 
     public class ChillOut : Command
     {
-        public override void OrderRobot(Robot robot)
+        public override void OrderRobot(Robot.Robot robot)
         {
             robot.Chill();
         }

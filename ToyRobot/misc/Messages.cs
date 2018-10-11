@@ -55,5 +55,7 @@ namespace ToyRobot.misc
         public static string BabyCrying = "Baby don't hurt me.. no more..";
 
         public static string BadCommand = "Didn't get that.. try again..";
+
+        public static string FirstCommand = "First command should be a place command";
     }
 }

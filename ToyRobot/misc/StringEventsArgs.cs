@@ -13,5 +13,10 @@ namespace ToyRobot.misc
         {
             this.value = value;
         }
+
+        public override string ToString()
+        {
+            return value;
+        }
     }
 }

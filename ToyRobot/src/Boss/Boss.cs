@@ -1,19 +1,21 @@
-﻿using System.Diagnostics;
-using Pipe4Net;
+﻿using Pipe4Net;
+using System.Diagnostics;
 using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
 using ToyRobot.src.Robot;
+using ToyRobot.src.Table;
 
 namespace ToyRobot.Boss
 {
     public class Boss
     {
         private Ilogger logger;
-        private src.Table.Table table;
-        private src.Robot.Robot robot;
+        private Table table;
+        private Robot.Robot robot;
+        private bool isFirstCommand = true;
 
-        public Boss(Ilogger logger, src.Table.Table table, src.Robot.Robot robot)
+        public Boss(Ilogger logger, Table table, Robot.Robot robot)
         {
             Debug.Assert(logger != null && table != null && robot != null);
 
@@ -51,9 +53,11 @@ namespace ToyRobot.Boss
             logger.Arrow();
         }
 
-        public void GiveOrder(Command.Command command)
+        public Command.Command GiveOrder(Command.Command command)
         {
             command.OrderRobot(robot);
+
+            return command;
         }
 
         public void TakeOver()
@@ -64,10 +68,23 @@ namespace ToyRobot.Boss
                 var commandAsString = logger.ReadCommand();
 
                 CommandParser.Parse(commandAsString)
+                    .Pipe(CheckFirstCommand)
                     .Pipe(CheckIfValidOrder)
-                    .PipeWith(GiveOrder);
+                    .Pipe(GiveOrder)
+                    .PipeWith(NeedsRefresh);
+            }
+        }
 
-                robot.DidYouMove().IfTrue(LawAndOrder);
+        private void NeedsRefresh(Command.Command cmd)
+        {
+            if(cmd is FizicCommand) 
+                LawAndOrder();
+            else
+            {
+                logger.EmptyLine();
+                logger.Log(Messages.WaitingInstructions);
+                logger.EmptyLine();
+                logger.Log(Messages.Arrow);
             }
         }
 
@@ -81,6 +98,28 @@ namespace ToyRobot.Boss
         private void ReorderCells()
         {
             table.SwapCells(robot.OldIndex, robot.Index);
+        }
+
+        private Command.Command CheckFirstCommand(Command.Command cmd)
+        {
+            if (isFirstCommand)
+            {
+                if (cmd is Place)
+                {
+                    isFirstCommand = false;
+                    return cmd;
+                }
+                
+                logger.Log(Messages.FirstCommand);
+                logger.EmptyLine();
+                logger.Log(Messages.WaitingInstructions);
+                logger.EmptyLine();
+                logger.Log(Messages.Arrow);
+
+                return new ChillOut();
+            }
+
+            return cmd;
         }
 
         private Command.Command CheckIfValidOrder(Command.Command arg)

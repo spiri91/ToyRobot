@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ToyRobot.src.Cell
+﻿namespace ToyRobot.Cell
 {
     public class EmptyCell : Cell
     {

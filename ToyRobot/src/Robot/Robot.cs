@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ToyRobot.misc;
+using ToyRobot.src.Robot;
 
-namespace ToyRobot.src.Robot
+namespace ToyRobot.Robot
 {
     public class Robot : Cell.Cell
     {
@@ -14,8 +14,6 @@ namespace ToyRobot.src.Robot
 
         public int XIndex { get; protected set; }
 
-        public bool DidIMoved { get; private set; }
-
         public int YIndex { get; protected set; }
 
         public PointsTo Direction { get; private set; }
@@ -24,7 +22,7 @@ namespace ToyRobot.src.Robot
 
         public Func<int, bool> IsValidMove;
 
-        //public Robot() : this( x => true) { }
+        public Robot() : this(x => true) { }
 
         public Robot(Func<int, bool> validMove)
         {
@@ -94,19 +92,32 @@ namespace ToyRobot.src.Robot
             Complain?.Invoke(this, new StringEventsArgs(Messages.BabyCrying));
         }
 
-        internal bool DidYouMove()
-        {
-            return this.OldIndex != Index;
-        }
-
         public void Move()
         {
-            throw new NotImplementedException();
+            switch (this.Direction.cardinal)
+            {
+                case Cardinal.Est:
+                    this.ChangeXIndex(this.XIndex + 1);
+                    this.GoToIndex();
+                    break;
+
+                case Cardinal.North:
+                    this.ChangeYIndex(this.YIndex - 1);
+                    this.GoToIndex();
+                    break;
+
+                case Cardinal.South:
+                    this.ChangeYIndex(this.YIndex + 1);
+                    this.GoToIndex();
+                    break;
+
+                case Cardinal.West:
+                    this.ChangeXIndex(this.XIndex - 1);
+                    this.GoToIndex();
+                    break;
+            }
         }
 
-        public void Chill()
-        {
-
-        }
+        public void Chill() { }
     }
 }

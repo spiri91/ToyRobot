@@ -1,7 +1,6 @@
 ﻿using ToyRobot.misc;
-using ToyRobot.src.Logger;
 
-namespace ToyRobot.src.Cell
+namespace ToyRobot.Cell
 {
     public abstract class Cell
     {
