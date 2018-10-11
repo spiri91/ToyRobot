@@ -1,19 +1,36 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using ToyRobot.misc;
 
 namespace ToyRobot.src.Robot
 {
     public class Robot : Cell.Cell
     {
-        public int OldIndex { get; set; }
+        private IList<int> LastPositons;
+
+        public int OldIndex => LastPositons.Last();
 
         public int XIndex { get; protected set; }
 
+        public bool DidIMoved { get; private set; }
+
         public int YIndex { get; protected set; }
 
-        public PointsTo direction { get; private set; }
+        public PointsTo Direction { get; private set; }
 
         public event EventHandler<MessageEventArgs> Complain;
+
+        public Func<int, bool> IsValidMove;
+
+        //public Robot() : this( x => true) { }
+
+        public Robot(Func<int, bool> validMove)
+        {
+            this.LastPositons = new List<int>();
+            this.IsValidMove = validMove;
+        }
 
         public override string DrawYourself(string str)
         {
@@ -27,7 +44,7 @@ namespace ToyRobot.src.Robot
 
         public void ChangeDirection(PointsTo pointsTo)
         {
-            this.direction = pointsTo;
+            this.Direction = pointsTo;
         }
 
         public void ChangeXIndex(int xIndex)
@@ -35,10 +52,17 @@ namespace ToyRobot.src.Robot
             this.XIndex = xIndex;
         }
 
-        public void ChangeIndex()
+        public void GoToIndex()
         {
-            this.OldIndex = Index;
-            this.Index = XIndex + (5 * (YIndex-1));
+            var newIndex = XIndex + (5 * (YIndex - 1));
+
+            if (this.IsValidMove(newIndex))
+            {
+                this.LastPositons.Add(Index);
+                this.Index = newIndex;
+            }
+            else
+                this.Curse();
         }
 
         public void ChangeYIndex(int yIndex)
@@ -48,31 +72,31 @@ namespace ToyRobot.src.Robot
 
         internal void GoLeft()
         {
-            var newDirection = direction.GetLeftDirection();
+            var newDirection = Direction.GetLeftDirection();
 
-            direction = newDirection;
+            Direction = newDirection;
         }
 
         internal void GoRight()
         {
-            var newDirection = direction.GetRightDirection();
+            var newDirection = Direction.GetRightDirection();
 
-            direction = newDirection;
+            Direction = newDirection;
         }
 
         internal void Shout()
         {
-            throw new NotImplementedException();
+            Complain?.Invoke(this, new StringEventsArgs($"x: {XIndex}\t y: {YIndex}\t p:{Direction}"));
         }
 
         internal void Curse()
         {
-            throw new NotImplementedException();
+            Complain?.Invoke(this, new StringEventsArgs(Messages.BabyCrying));
         }
 
         internal bool DidYouMove()
         {
-            return true;
+            return this.OldIndex != Index;
         }
 
         public void Move()
@@ -82,7 +106,7 @@ namespace ToyRobot.src.Robot
 
         public void Chill()
         {
-            
+
         }
     }
 }

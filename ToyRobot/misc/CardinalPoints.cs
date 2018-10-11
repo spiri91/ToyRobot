@@ -20,6 +20,11 @@ namespace ToyRobot.misc
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return Enum.GetName(typeof(Cardinal), cardinal);
+        }
     }
 
     public enum Cardinal

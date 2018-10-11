@@ -1,21 +1,19 @@
-﻿using Pipe4Net;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
+using Pipe4Net;
 using ToyRobot.Command;
 using ToyRobot.misc;
-using ToyRobot.src.Cell;
 using ToyRobot.src.Logger;
 using ToyRobot.src.Robot;
 
-namespace ToyRobot.src.Boss
+namespace ToyRobot.Boss
 {
     public class Boss
     {
         private Ilogger logger;
-        private Table.Table table;
-        private Robot.Robot robot;
+        private src.Table.Table table;
+        private src.Robot.Robot robot;
 
-        public Boss(Ilogger logger, Table.Table table, Robot.Robot robot)
+        public Boss(Ilogger logger, src.Table.Table table, src.Robot.Robot robot)
         {
             Debug.Assert(logger != null && table != null && robot != null);
 
@@ -82,10 +80,7 @@ namespace ToyRobot.src.Boss
 
         private void ReorderCells()
         {
-            var robotOldIndex = robot.OldIndex;
-            var tableCellWithRobotIndex = table.Cells.Where(c => c is EmptyCell).Single(x => x.Index == robot.Index);
-
-            tableCellWithRobotIndex.SetIndex(robotOldIndex);
+            table.SwapCells(robot.OldIndex, robot.Index);
         }
 
         private Command.Command CheckIfValidOrder(Command.Command arg)

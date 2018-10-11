@@ -20,7 +20,7 @@ namespace ToyRobot.Command
         {
             this.PointingTo = pointsTo;
             this.XPosition = xPosition;
-            this.YPosition = xPosition;
+            this.YPosition = yPosition;
         }
 
         public override void OrderRobot(Robot robot)
@@ -28,7 +28,7 @@ namespace ToyRobot.Command
             robot.ChangeDirection(this.PointingTo);
             robot.ChangeXIndex(this.XPosition);
             robot.ChangeYIndex(this.YPosition);
-            robot.ChangeIndex();
+            robot.GoToIndex();
         }
     }
 

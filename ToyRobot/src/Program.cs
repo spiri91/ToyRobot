@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using Pipe4Net;
+using ToyRobot.Boss;
 using ToyRobot.Command;
 using ToyRobot.Logger;
 using ToyRobot.misc;
-using ToyRobot.src.Boss;
 using ToyRobot.src.Cell;
 using ToyRobot.src.Logger;
 using ToyRobot.src.Robot;
@@ -26,25 +26,20 @@ namespace ToyRobot
 
 public class Orchestrator
 {
-    private readonly Table table;
-    private List<Cell> cells;
     private Boss boss;
-    private Ilogger logger;
 
-    public Orchestrator() : this(new Logger())
-    {
-        
-    }
+    public Orchestrator() : this(new Logger()) { }
 
     public Orchestrator(Ilogger logger)
     {
-        this.logger = logger;
-        cells = new List<Cell>();
-        var robot = new Robot();
-        24.GenerateForLoop(() => cells.Add(new EmptyCell()));
+        int numberOfCells = 25;
+        var cells = new List<Cell>();
+        var robot = new Robot(x => x <= numberOfCells);
+        numberOfCells.GenerateForLoop(() => cells.Add(new EmptyCell()));
+
         cells.Add(robot);
 
-        this.table = new Table(logger, cells);
+        var table = new Table(logger, cells);
         this.boss = new Boss(logger, table, robot);
     }
 
