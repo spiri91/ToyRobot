@@ -11,7 +11,7 @@ namespace ToyRobot.misc
             Cardinal = cardinal;
         }
 
-        internal PointsTo GetLeftDirection()
+        public PointsTo GetLeftDirection()
         {
             Cardinal newCardinal;
 
@@ -38,7 +38,7 @@ namespace ToyRobot.misc
             return new PointsTo(newCardinal);
         }
 
-        internal PointsTo GetRightDirection()
+        public PointsTo GetRightDirection()
         {
             Cardinal newCardinal;
 
