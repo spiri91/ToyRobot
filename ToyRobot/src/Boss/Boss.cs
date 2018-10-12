@@ -75,15 +75,15 @@ namespace ToyRobot.Boss
 
         private void NeedsRefresh(Command.Command cmd)
         {
-            if (cmd.MovingStuff() && robot.DidIMoved())
-                LawAndOrder();
-            else
-            {
-                logger.EmptyLine();
-                logger.Log(Messages.WaitingInstructions);
-                logger.EmptyLine();
-                logger.Log(Messages.Arrow);
-            }
+            (cmd.MovingStuff() && robot.DidIMoved())
+                .IfTrue(LawAndOrder)
+                .Else(() =>
+                {
+                    logger.EmptyLine();
+                    logger.Log(Messages.WaitingInstructions);
+                    logger.EmptyLine();
+                    logger.Log(Messages.Arrow);
+                });
         }
 
         private void LawAndOrder()
