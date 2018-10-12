@@ -7,7 +7,7 @@ namespace ToyRobot.misc
 {
     public static class StringExtensions
     {
-        public static string toSpaces(this string value)
+        public static string ToSpaces(this string value)
         {
             var length = value.Length;
             var toReturn = "";

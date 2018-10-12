@@ -18,7 +18,7 @@ namespace ToyRobot.Cell
         public virtual string DrawYourself(string str)
         {
             var toReplace = "{" + Index + "}";
-            var replaceWith = toReplace.toSpaces();
+            var replaceWith = toReplace.ToSpaces();
 
             str = str.Replace(toReplace, replaceWith);
 

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using ToyRobot.Command;
+﻿using System.Collections.Generic;
 using ToyRobot.misc;
-using ToyRobot.Robot;
-using ToyRobot.src.Robot;
 
 namespace ToyRobot.Command
 {

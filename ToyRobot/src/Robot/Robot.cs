@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ToyRobot.misc;
-using ToyRobot.src.Robot;
 
 namespace ToyRobot.Robot
 {
@@ -18,7 +17,7 @@ namespace ToyRobot.Robot
 
         public PointsTo Direction { get; private set; }
 
-        public event EventHandler<MessageEventArgs> Complain;
+        public event EventHandler<StringEventsArgs> Complain;
 
         public Func<int, int, bool> IsValidMove;
 

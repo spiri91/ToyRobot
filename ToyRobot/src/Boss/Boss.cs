@@ -3,7 +3,6 @@ using System.Diagnostics;
 using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
-using ToyRobot.src.Robot;
 
 namespace ToyRobot.Boss
 {
@@ -24,7 +23,7 @@ namespace ToyRobot.Boss
             this.robot.Complain += HearHim;
         }
 
-        private void HearHim(object sender, MessageEventArgs e)
+        private void HearHim(object sender, StringEventsArgs e)
         {
             logger.Arrow();
             logger.Log(e.ToString());
