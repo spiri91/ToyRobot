@@ -1,58 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pipe4Net;
-using ToyRobot.Boss;
 using ToyRobot.Cell;
-using ToyRobot.Logger;
-using ToyRobot.Robot;
 using ToyRobot.src.Logger;
-using ToyRobot.Table;
 
-public class Orchestrator
+namespace ToyRobot.Orchestrator
 {
-    private Boss boss;
-
-    private static int numberOfCells = 25;
-    private static int rowAndColumMaxIndex = 5;
-
-    public Orchestrator() : this(new Logger()) { }
-
-    private static Func<int, int, bool> validMove = (xIndex, yIndex) =>
+    public class Orchestrator
     {
-        var newIndex = calculateIndex(xIndex, yIndex);
+        private Boss.Boss _boss;
 
-        if (newIndex > numberOfCells) return false;
+        private static int _numberOfCells = 25;
+        private static int _rowAndColumMaxIndex = 5;
 
-        if (xIndex > 5 || xIndex < 1) return false;
+        public Orchestrator() : this(new Logger.Logger()) { }
 
-        if (yIndex > 5 || yIndex < 1) return false;
+        private static Func<int, int, bool> _validMove = (xIndex, yIndex) =>
+        {
+            var newIndex = _calculateIndex(xIndex, yIndex);
 
-        return true;
-    };
+            if (newIndex > _numberOfCells) return false;
 
-    private static Func<int, int, int> calculateIndex = (xIndex, yIndex) =>
-    {
-        var newIndex = xIndex + 5 * (yIndex - 1);
+            if (xIndex > _rowAndColumMaxIndex || xIndex < 1) return false;
 
-        return newIndex;
-    };
+            if (yIndex > _rowAndColumMaxIndex || yIndex < 1) return false;
 
-    public Orchestrator(Ilogger logger)
-    {
+            return true;
+        };
 
-        var cells = new List<Cell>();
-        numberOfCells.GenerateForLoop(() => cells.Add(new EmptyCell()));
+        private static Func<int, int, int> _calculateIndex = (xIndex, yIndex) =>
+        {
+            var newIndex = xIndex + 5 * (yIndex - 1);
 
+            return newIndex;
+        };
 
-        var robot = new Robot(validMove, calculateIndex);
-        cells.Add(robot);
+        public Orchestrator(ILogger logger)
+        {
+            var cells = new List<Cell.Cell>();
+            _numberOfCells.GenerateForLoop(() => cells.Add(new EmptyCell()));
 
-        var table = new Table(logger, cells);
-        this.boss = new Boss(logger, table, robot);
-    }
+            var robot = new Robot.Robot(_validMove, _calculateIndex);
+            cells.Add(robot);
 
-    public void Run()
-    {
-        boss.TakeOver();
+            var table = new Table.Table(logger, cells);
+            _boss = new Boss.Boss(logger, table, robot);
+        }
+
+        public void Run()
+        {
+            _boss.TakeOver();
+        }
     }
 }

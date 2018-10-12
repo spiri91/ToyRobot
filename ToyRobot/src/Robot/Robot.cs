@@ -7,9 +7,9 @@ namespace ToyRobot.Robot
 {
     public class Robot : Cell.Cell
     {
-        private IList<int> LastPositons;
+        private IList<int> _lastPositons;
 
-        public int OldIndex => LastPositons.Last();
+        public int OldIndex => _lastPositons.Last();
 
         public int XIndex { get; protected set; }
 
@@ -23,13 +23,13 @@ namespace ToyRobot.Robot
 
         public Func<int, int, int> CalculateIndex { get; set; }
 
-        private bool IMoved;
+        private bool _moved;
 
         public Robot(Func<int, int, bool> validMove, Func<int, int, int> calculateIndex)
         {
-            this.LastPositons = new List<int>();
-            this.IsValidMove = validMove;
-            this.CalculateIndex = calculateIndex;
+            _lastPositons = new List<int>();
+            IsValidMove = validMove;
+            CalculateIndex = calculateIndex;
         }
 
         public override string DrawYourself(string str)
@@ -48,14 +48,14 @@ namespace ToyRobot.Robot
         {
             var newIndex = CalculateIndex(XIndex, YIndex);
 
-            this.LastPositons.Add(Index);
-            this.Index = newIndex;
-            this.IMoved = true;
+            _lastPositons.Add(Index);
+            Index = newIndex;
+            _moved = true;
         }
 
         private bool Valid(int xIndex, int yIndex)
         {
-            return this.IsValidMove(xIndex, yIndex);
+            return IsValidMove(xIndex, yIndex);
         }
 
         internal void GoLeft()
@@ -84,32 +84,32 @@ namespace ToyRobot.Robot
 
         public void Move()
         {
-            int _xIndex = XIndex;
-            int _yIndex = YIndex;
+            int xIndex = XIndex;
+            int yIndex = YIndex;
 
-            switch (this.Direction.cardinal)
+            switch (Direction.Cardinal)
             {
                 case Cardinal.Est:
-                    _xIndex = this.XIndex + 1;
+                    xIndex = XIndex + 1;
                     break;
 
                 case Cardinal.North:
-                    _yIndex = this.YIndex + 1;
+                    yIndex = YIndex + 1;
                     break;
 
                 case Cardinal.South:
-                    _yIndex = this.YIndex - 1;
+                    yIndex = YIndex - 1;
                     break;
 
                 case Cardinal.West:
-                    _xIndex = this.XIndex - 1;
+                    xIndex = XIndex - 1;
                     break;
             }
 
-            if (Valid(_xIndex, _yIndex))
+            if (Valid(xIndex, yIndex))
             {
-                this.XIndex = _xIndex;
-                this.YIndex = _yIndex;
+                XIndex = xIndex;
+                YIndex = yIndex;
 
                 GoToIndex();
             }
@@ -119,11 +119,11 @@ namespace ToyRobot.Robot
 
         private void BadMove()
         {
-            this.IMoved = false;
-            this.Curse();
+            _moved = false;
+            Curse();
         }
 
-        public bool DidIMoved() => IMoved;
+        public bool DidIMoved() => _moved;
 
         public void Chill() { }
 
@@ -131,9 +131,9 @@ namespace ToyRobot.Robot
         {
             if (Valid(xPosition, yPosition))
             {
-                this.XIndex = xPosition;
-                this.YIndex = yPosition;
-                this.Direction = pointingTo;
+                XIndex = xPosition;
+                YIndex = yPosition;
+                Direction = pointingTo;
 
                 GoToIndex();
             }

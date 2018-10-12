@@ -4,18 +4,18 @@ namespace ToyRobot.misc
 {
     public class PointsTo
     {
-        public Cardinal cardinal { get; private set; }
+        public Cardinal Cardinal { get; private set; }
 
         public PointsTo(Cardinal cardinal)
         {
-            this.cardinal = cardinal;
+            Cardinal = cardinal;
         }
 
         internal PointsTo GetLeftDirection()
         {
             Cardinal newCardinal;
 
-            switch (cardinal)
+            switch (Cardinal)
             {
                 case Cardinal.North:
                     newCardinal = Cardinal.West;
@@ -42,7 +42,7 @@ namespace ToyRobot.misc
         {
             Cardinal newCardinal;
 
-            switch (cardinal)
+            switch (Cardinal)
             {
                 case Cardinal.North:
                     newCardinal = Cardinal.Est;
@@ -67,7 +67,7 @@ namespace ToyRobot.misc
 
         public override string ToString()
         {
-            return Enum.GetName(typeof(Cardinal), cardinal);
+            return Enum.GetName(typeof(Cardinal), Cardinal);
         }
     }
 

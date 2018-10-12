@@ -4,13 +4,13 @@ namespace ToyRobot.Cell
 {
     public abstract class Cell
     {
-        private static int _index = 0;
+        private static int _index;
 
         protected Cell()
         {
             _index++;
 
-            this.Index = _index;
+            Index = _index;
         }
 
         public int Index { get; protected set; }
@@ -27,7 +27,7 @@ namespace ToyRobot.Cell
 
         public void SetIndex(int index)
         {
-            this.Index = index;
+            Index = index;
         }
 
         public abstract bool YouEmpty();

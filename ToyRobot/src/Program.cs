@@ -1,1 +1,3 @@
-﻿class Program { static void Main() { new Orchestrator().Run(); } } 
+﻿using ToyRobot.Orchestrator;
+
+class Program { static void Main() { new Orchestrator().Run(); } } 

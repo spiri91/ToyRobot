@@ -1,5 +1,5 @@
-﻿using Pipe4Net;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Pipe4Net;
 using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
@@ -8,61 +8,61 @@ namespace ToyRobot.Boss
 {
     public class Boss
     {
-        private Ilogger logger;
-        private Table.Table table;
-        private Robot.Robot robot;
-        private bool isFirstCommand = true;
+        private ILogger _logger;
+        private Table.Table _table;
+        private Robot.Robot _robot;
+        private bool _isFirstCommand = true;
 
-        public Boss(Ilogger logger, Table.Table table, Robot.Robot robot)
+        public Boss(ILogger logger, Table.Table table, Robot.Robot robot)
         {
             Debug.Assert(logger != null && table != null && robot != null);
 
-            this.logger = logger;
-            this.table = table;
-            this.robot = robot;
-            this.robot.Complain += HearHim;
+            _logger = logger;
+            _table = table;
+            _robot = robot;
+            _robot.Complain += HearHim;
         }
 
         private void HearHim(object sender, StringEventsArgs e)
         {
-            logger.Arrow();
-            logger.Log(e.ToString());
+            _logger.Arrow();
+            _logger.Log(e.ToString());
         }
 
         public void ShowTemplate()
         {
-            logger.Log(Messages.IntroInfo);
-            logger.Log(Messages.Commands);
-            logger.EmptyLines(2);
-            logger.ShowRobot();
-            logger.EmptyLines(2);
+            _logger.Log(Messages.IntroInfo);
+            _logger.Log(Messages.Commands);
+            _logger.EmptyLines(2);
+            _logger.ShowRobot();
+            _logger.EmptyLines(2);
 
-            this.table.DrawYourself();
+            _table.DrawYourself();
 
             WaitInstruction();
         }
 
         public void WaitInstruction()
         {
-            logger.EmptyLines(2);
-            logger.Log(Messages.WaitingInstructions);
-            logger.EmptyLine();
-            logger.Arrow();
+            _logger.EmptyLines(2);
+            _logger.Log(Messages.WaitingInstructions);
+            _logger.EmptyLine();
+            _logger.Arrow();
         }
 
         public Command.Command GiveOrder(Command.Command command)
         {
-            command.OrderRobot(robot);
+            command.OrderRobot(_robot);
 
             return command;
         }
 
         public void TakeOver()
         {
-            this.ShowTemplate();
+            ShowTemplate();
             while (true)
             {
-                var commandAsString = logger.ReadCommand();
+                var commandAsString = _logger.ReadCommand();
 
                 CommandParser.Parse(commandAsString)
                     .Pipe(CheckFirstCommand)
@@ -70,46 +70,47 @@ namespace ToyRobot.Boss
                     .Pipe(GiveOrder)
                     .PipeWith(NeedsRefresh);
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private void NeedsRefresh(Command.Command cmd)
         {
-            (cmd.MovingStuff() && robot.DidIMoved())
+            (cmd.MovingStuff() && _robot.DidIMoved())
                 .IfTrue(LawAndOrder)
                 .Else(() =>
                 {
-                    logger.EmptyLine();
-                    logger.Log(Messages.WaitingInstructions);
-                    logger.EmptyLine();
-                    logger.Log(Messages.Arrow);
+                    _logger.EmptyLine();
+                    _logger.Log(Messages.WaitingInstructions);
+                    _logger.EmptyLine();
+                    _logger.Log(Messages.Arrow);
                 });
         }
 
         private void LawAndOrder()
         {
-            logger.Clear();
+            _logger.Clear();
             ReorderCells();
             TakeOver();
         }
 
         private void ReorderCells()
         {
-            table.SwapCells(robot.OldIndex, robot.Index);
+            _table.SwapCells(_robot.OldIndex, _robot.Index);
         }
 
         private Command.Command CheckFirstCommand(Command.Command cmd)
         {
-            if (isFirstCommand)
+            if (_isFirstCommand)
             {
                 if (cmd is Place)
                 {
-                    isFirstCommand = false;
+                    _isFirstCommand = false;
 
                     return cmd;
                 }
 
-                logger.Log(Messages.FirstCommand);
-                logger.EmptyLine();
+                _logger.Log(Messages.FirstCommand);
+                _logger.EmptyLine();
 
                 return new ChillOut();
             }
@@ -122,7 +123,7 @@ namespace ToyRobot.Boss
             if (arg.YouValid())
                 return arg;
 
-            logger.Log(Messages.BadCommand);
+            _logger.Log(Messages.BadCommand);
 
             return new ChillOut();
         }

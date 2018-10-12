@@ -9,15 +9,15 @@ namespace ToyRobot.Table
     public class Table
     {
         public IList<Cell.Cell> Cells { get; private set; }
-        private Ilogger _logger;
+        private ILogger _logger;
 
-        public Table(Ilogger logger, IList<Cell.Cell> cells)
+        public Table(ILogger logger, IList<Cell.Cell> cells)
         {
             Debug.Assert(cells != null);
             Debug.Assert(logger != null);
 
             Cells = cells;
-            this._logger = logger;
+            _logger = logger;
         }
 
         public void DrawYourself()

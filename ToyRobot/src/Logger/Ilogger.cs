@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ToyRobot.src.Logger
+﻿namespace ToyRobot.src.Logger
 {
-    public interface Ilogger
+    public interface ILogger
     {
         void ShowRobot();
 

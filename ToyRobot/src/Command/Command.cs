@@ -30,9 +30,9 @@ namespace ToyRobot.Command
 
         public Place(PointsTo pointsTo, int xPosition, int yPosition)
         {
-            this.PointingTo = pointsTo;
-            this.XPosition = xPosition;
-            this.YPosition = yPosition;
+            PointingTo = pointsTo;
+            XPosition = xPosition;
+            YPosition = yPosition;
         }
 
         public override void OrderRobot(Robot.Robot robot)
@@ -150,13 +150,13 @@ namespace ToyRobot.Command
 
             if (arguments.Length == 4)
             {
-                if (false == int.TryParse(arguments[1], out int x)) return false;
-                if (false == int.TryParse(arguments[2], out int y)) return false;
+                if (false == int.TryParse(arguments[1], out int _)) return false;
+                if (false == int.TryParse(arguments[2], out int _)) return false;
 
                 if (false == IsValidCardinalPoint(arguments[3])) return false;
             }
 
-            var listOfValidCommands = new List<string>()
+            var listOfValidCommands = new List<string>
             {
                 "place",
                 "p",
@@ -177,7 +177,7 @@ namespace ToyRobot.Command
 
         private static bool IsValidCardinalPoint(string s)
         {
-            var validCardinals = new List<string>() {"s", "w", "n", "e"};
+            var validCardinals = new List<string> {"s", "w", "n", "e"};
 
             if (validCardinals.IndexOf(s.Trim().ToLower()) == -1) return false;
 

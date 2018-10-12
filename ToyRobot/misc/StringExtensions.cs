@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Pipe4Net;
+﻿using Pipe4Net;
 
 namespace ToyRobot.misc
 {
@@ -12,7 +9,7 @@ namespace ToyRobot.misc
             var length = value.Length;
             var toReturn = "";
 
-            length.GenerateForLoop(() => toReturn+=" ");
+            length.GenerateForLoop(() => toReturn += " ");
 
             return toReturn;
         }

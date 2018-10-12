@@ -5,39 +5,39 @@ using ToyRobot.src.Logger;
 
 namespace ToyRobot.Logger
 {
-    public class Logger : Ilogger
+    public class Logger : ILogger
     {
-        public void ShowRobot()
+        virtual public void ShowRobot()
         {
-            this.Log(Messages.Robot);
+            Log(Messages.Robot);
         }
 
-        public void Log(string message)
+        virtual public void Log(string message)
         {
             Console.Write(message);
         }
 
-        public void EmptyLine()
+        virtual public void EmptyLine()
         {
-            this.Log(Environment.NewLine);
+            Log(Environment.NewLine);
         }
 
-        public void EmptyLines(int value)
+        virtual public void EmptyLines(int value)
         {
             value.GenerateForLoop(EmptyLine);
         }
 
-        public void Arrow()
+        virtual public void Arrow()
         {
-            this.Log(Messages.Arrow);
+            Log(Messages.Arrow);
         }
 
-        public string ReadCommand()
+        virtual public string ReadCommand()
         {
             return Console.ReadLine();
         }
 
-        public void Clear()
+        virtual public void Clear()
         {
             Console.Clear();
         }
