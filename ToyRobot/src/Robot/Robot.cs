@@ -20,14 +20,17 @@ namespace ToyRobot.Robot
 
         public event EventHandler<MessageEventArgs> Complain;
 
-        public Func<int, bool> IsValidMove;
+        public Func<int, int, bool> IsValidMove;
 
-        public Robot() : this(x => true) { }
+        public Func<int, int, int> CalculateIndex { get; set; }
 
-        public Robot(Func<int, bool> validMove)
+        private bool IMoved;
+
+        public Robot(Func<int, int, bool> validMove, Func<int, int, int> calculateIndex)
         {
             this.LastPositons = new List<int>();
             this.IsValidMove = validMove;
+            this.CalculateIndex = calculateIndex;
         }
 
         public override string DrawYourself(string str)
@@ -40,32 +43,25 @@ namespace ToyRobot.Robot
             return str;
         }
 
+        public override bool YouEmpty() => false;
+
         public void ChangeDirection(PointsTo pointsTo)
         {
             this.Direction = pointsTo;
         }
 
-        public void ChangeXIndex(int xIndex)
-        {
-            this.XIndex = xIndex;
-        }
-
         public void GoToIndex()
         {
-            var newIndex = XIndex + (5 * (YIndex - 1));
+            var newIndex = CalculateIndex(XIndex, YIndex);
 
-            if (this.IsValidMove(newIndex))
-            {
-                this.LastPositons.Add(Index);
-                this.Index = newIndex;
-            }
-            else
-                this.Curse();
+            this.LastPositons.Add(Index);
+            this.Index = newIndex;
+            this.IMoved = true;
         }
 
-        public void ChangeYIndex(int yIndex)
+        private bool Valid(int xIndex, int yIndex)
         {
-            this.YIndex = yIndex;
+            return this.IsValidMove(xIndex, yIndex);
         }
 
         internal void GoLeft()
@@ -94,30 +90,54 @@ namespace ToyRobot.Robot
 
         public void Move()
         {
+            int xIindex = XIndex;
+            int yIndex = YIndex;
+
             switch (this.Direction.cardinal)
             {
                 case Cardinal.Est:
-                    this.ChangeXIndex(this.XIndex + 1);
-                    this.GoToIndex();
+                    xIindex = this.XIndex + 1;
                     break;
 
                 case Cardinal.North:
-                    this.ChangeYIndex(this.YIndex - 1);
-                    this.GoToIndex();
+                    yIndex = this.YIndex + 1;
                     break;
 
                 case Cardinal.South:
-                    this.ChangeYIndex(this.YIndex + 1);
-                    this.GoToIndex();
+                    yIndex = this.YIndex - 1;
                     break;
 
                 case Cardinal.West:
-                    this.ChangeXIndex(this.XIndex - 1);
-                    this.GoToIndex();
+                    XIndex = this.XIndex - 1;
                     break;
             }
+
+            if (Valid(xIindex, yIndex)) GoToIndex();
+            else BadMove();
+
         }
 
+        private void BadMove()
+        {
+            this.IMoved = false;
+            this.Curse();
+        }
+
+        public bool DidIMoved() => IMoved;
+
         public void Chill() { }
+
+        public void ChangeCoords(int xPosition, int yPosition, PointsTo pointingTo)
+        {
+            if (Valid(xPosition, yPosition))
+            {
+                this.XIndex = xPosition;
+                this.YIndex = yPosition;
+                this.Direction = pointingTo;
+
+                GoToIndex();
+            }
+            else BadMove();
+        }
     }
 }

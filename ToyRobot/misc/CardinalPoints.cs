@@ -13,14 +13,54 @@ namespace ToyRobot.misc
 
         internal PointsTo GetLeftDirection()
         {
-            var newCardinal = this.cardinal - 1;
+            Cardinal newCardinal;
+
+            switch (cardinal)
+            {
+                case Cardinal.North:
+                    newCardinal = Cardinal.West;
+                    break;
+                case Cardinal.West:
+                    newCardinal = Cardinal.South;
+                    break;
+                case Cardinal.South:
+                    newCardinal = Cardinal.Est;
+                    break;
+                case Cardinal.Est:
+                    newCardinal = Cardinal.North;
+                    break;
+
+                default:
+                    newCardinal = Cardinal.Nowhere;
+                    break;
+            }
 
             return new PointsTo(newCardinal);
         }
 
         internal PointsTo GetRightDirection()
         {
-            var newCardinal = this.cardinal + 1;
+            Cardinal newCardinal;
+
+            switch (cardinal)
+            {
+                case Cardinal.North:
+                    newCardinal = Cardinal.Est;
+                    break;
+                case Cardinal.West:
+                    newCardinal = Cardinal.North;
+                    break;
+                case Cardinal.South:
+                    newCardinal = Cardinal.West;
+                    break;
+                case Cardinal.Est:
+                    newCardinal = Cardinal.South;
+                    break;
+
+                default:
+                    newCardinal = Cardinal.Nowhere;
+                    break;
+            }
 
             return new PointsTo(newCardinal);
         }

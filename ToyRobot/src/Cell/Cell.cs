@@ -29,5 +29,7 @@ namespace ToyRobot.Cell
         {
             this.Index = index;
         }
+
+        public abstract bool YouEmpty();
     }
 }

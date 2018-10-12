@@ -4,18 +4,17 @@ using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
 using ToyRobot.src.Robot;
-using ToyRobot.src.Table;
 
 namespace ToyRobot.Boss
 {
     public class Boss
     {
         private Ilogger logger;
-        private Table table;
+        private Table.Table table;
         private Robot.Robot robot;
         private bool isFirstCommand = true;
 
-        public Boss(Ilogger logger, Table table, Robot.Robot robot)
+        public Boss(Ilogger logger, Table.Table table, Robot.Robot robot)
         {
             Debug.Assert(logger != null && table != null && robot != null);
 
@@ -27,10 +26,8 @@ namespace ToyRobot.Boss
 
         private void HearHim(object sender, MessageEventArgs e)
         {
-            logger.EmptyLines(2);
             logger.Arrow();
             logger.Log(e.ToString());
-            WaitInstruction();
         }
 
         public void ShowTemplate()
@@ -77,7 +74,7 @@ namespace ToyRobot.Boss
 
         private void NeedsRefresh(Command.Command cmd)
         {
-            if(cmd is FizicCommand) 
+            if (cmd.MovingStuff() && robot.DidIMoved())
                 LawAndOrder();
             else
             {
@@ -107,14 +104,12 @@ namespace ToyRobot.Boss
                 if (cmd is Place)
                 {
                     isFirstCommand = false;
+
                     return cmd;
                 }
-                
+
                 logger.Log(Messages.FirstCommand);
                 logger.EmptyLine();
-                logger.Log(Messages.WaitingInstructions);
-                logger.EmptyLine();
-                logger.Log(Messages.Arrow);
 
                 return new ChillOut();
             }
@@ -124,14 +119,12 @@ namespace ToyRobot.Boss
 
         private Command.Command CheckIfValidOrder(Command.Command arg)
         {
-            if (arg is BadCommand)
-            {
-                logger.Log(Messages.BadCommand);
+            if (arg.YouValid())
+                return arg;
 
-                return new ChillOut();
-            }
-            
-            return arg;
+            logger.Log(Messages.BadCommand);
+
+            return new ChillOut();
         }
     }
 }

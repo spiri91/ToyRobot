@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Pipe4Net;
-using ToyRobot.Cell;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
 
-namespace ToyRobot.src.Table
+namespace ToyRobot.Table
 {
     public class Table
     {
@@ -37,7 +35,7 @@ namespace ToyRobot.src.Table
         public void SwapCells(int oldIndex, int index)
         {
             var robotOldIndex = oldIndex;
-            var tableCellWithRobotIndex = Cells.Where(c => c is EmptyCell).Single(x => x.Index == index);
+            var tableCellWithRobotIndex = Cells.Where(c => c.YouEmpty()).Single(x => x.Index == index);
 
             tableCellWithRobotIndex.SetIndex(robotOldIndex);
         }

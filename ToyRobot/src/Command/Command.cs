@@ -1,18 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using ToyRobot.Command;
 using ToyRobot.misc;
+using ToyRobot.Robot;
 using ToyRobot.src.Robot;
 
 namespace ToyRobot.Command
 {
     public abstract class Command
     {
+        public abstract bool MovingStuff();
+
+        public virtual bool YouValid() => true;
+       
         public abstract void OrderRobot(Robot.Robot robot);
     }
 
-    public abstract class FizicCommand : Command { }
+    public abstract class MutableCommand : Command
+    {
+        public override bool MovingStuff() => true;
+    }
 
-    public class Place : FizicCommand
+    public abstract class ImutableCommand : Command
+    {
+        public override bool MovingStuff() => false;
+    }
+
+    public class Place : MutableCommand
     {
         public int XPosition { get; private set; }
         public int YPosition { get; private set; }
@@ -27,14 +41,11 @@ namespace ToyRobot.Command
 
         public override void OrderRobot(Robot.Robot robot)
         {
-            robot.ChangeDirection(this.PointingTo);
-            robot.ChangeXIndex(this.XPosition);
-            robot.ChangeYIndex(this.YPosition);
-            robot.GoToIndex();
+            robot.ChangeCoords(XPosition, YPosition, PointingTo);
         }
     }
 
-    public class GoLeft : Command
+    public class GoLeft : ImutableCommand
     {
         public override void OrderRobot(Robot.Robot robot)
         {
@@ -42,7 +53,7 @@ namespace ToyRobot.Command
         }
     }
 
-    public class GoRight : Command
+    public class GoRight : ImutableCommand
     {
         public override void OrderRobot(Robot.Robot robot)
         {
@@ -50,7 +61,7 @@ namespace ToyRobot.Command
         }
     }
 
-    public class Report : Command
+    public class Report : ImutableCommand
     {
         public override void OrderRobot(Robot.Robot robot)
         {
@@ -58,7 +69,7 @@ namespace ToyRobot.Command
         }
     }
 
-    public class Move : FizicCommand
+    public class Move : MutableCommand
     {
         public override void OrderRobot(Robot.Robot robot)
         {
@@ -66,15 +77,17 @@ namespace ToyRobot.Command
         }
     }
 
-    public class BadCommand : Command
+    public class BadCommand : ImutableCommand
     {
         public override void OrderRobot(Robot.Robot robot)
         {
             robot.Curse();
         }
+
+        public override bool YouValid() => false;
     }
 
-    public class ChillOut : Command
+    public class ChillOut : ImutableCommand
     {
         public override void OrderRobot(Robot.Robot robot)
         {
