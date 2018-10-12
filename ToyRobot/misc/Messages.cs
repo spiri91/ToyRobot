@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ToyRobot.misc
+﻿namespace ToyRobot.misc
 {
     public static class Messages
     {
         public const string IntroInfo = @"
-                Wellcome to my toy robot :) 
+                Welcome to my toy robot :) 
         ";
 
-        public const string Commands = @"
+        public const string Commands = @" 
 
-    
+                Commands: place (p) x:int y:int c:Cardinal (where cardinal 'S','W','E','N')
+                          report (re) 
+                          move (m)
+                          left (l)
+                          right (r)
+
         ";
 
         public const string Robot = @"
 
-                            (\    |@@|
+                           _(\    |@@|
                           (__/\__ \--/ __
                              \___|----|  |   __
                                  \ }{ /\ )_ / _\
@@ -29,7 +30,7 @@ namespace ToyRobot.misc
 
         public static string Arrow = @">>-----> ";
 
-        public static string CellRobot = @"<X>";
+        public static string CellRobot = @"<R>";
 
         public static string EmptyTable = @"
                       1      2      3      4      5

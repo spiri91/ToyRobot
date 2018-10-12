@@ -45,11 +45,6 @@ namespace ToyRobot.Robot
 
         public override bool YouEmpty() => false;
 
-        public void ChangeDirection(PointsTo pointsTo)
-        {
-            this.Direction = pointsTo;
-        }
-
         public void GoToIndex()
         {
             var newIndex = CalculateIndex(XIndex, YIndex);
@@ -90,29 +85,35 @@ namespace ToyRobot.Robot
 
         public void Move()
         {
-            int xIindex = XIndex;
-            int yIndex = YIndex;
+            int _xIndex = XIndex;
+            int _yIndex = YIndex;
 
             switch (this.Direction.cardinal)
             {
                 case Cardinal.Est:
-                    xIindex = this.XIndex + 1;
+                    _xIndex = this.XIndex + 1;
                     break;
 
                 case Cardinal.North:
-                    yIndex = this.YIndex + 1;
+                    _yIndex = this.YIndex + 1;
                     break;
 
                 case Cardinal.South:
-                    yIndex = this.YIndex - 1;
+                    _yIndex = this.YIndex - 1;
                     break;
 
                 case Cardinal.West:
-                    XIndex = this.XIndex - 1;
+                    _xIndex = this.XIndex - 1;
                     break;
             }
 
-            if (Valid(xIindex, yIndex)) GoToIndex();
+            if (Valid(_xIndex, _yIndex))
+            {
+                this.XIndex = _xIndex;
+                this.YIndex = _yIndex;
+
+                GoToIndex();
+            }
             else BadMove();
 
         }

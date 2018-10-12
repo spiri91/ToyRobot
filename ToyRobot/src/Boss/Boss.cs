@@ -33,6 +33,7 @@ namespace ToyRobot.Boss
         public void ShowTemplate()
         {
             logger.Log(Messages.IntroInfo);
+            logger.Log(Messages.Commands);
             logger.EmptyLines(2);
             logger.ShowRobot();
             logger.EmptyLines(2);
