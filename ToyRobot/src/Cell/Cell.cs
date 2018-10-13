@@ -6,7 +6,7 @@ namespace ToyRobot.Cell
     {
         private static int _index;
 
-        protected Cell()
+        public Cell()
         {
             _index++;
 
@@ -17,6 +17,8 @@ namespace ToyRobot.Cell
 
         public virtual string DrawYourself(string str)
         {
+            str = str ?? string.Empty;
+
             var toReplace = "{" + Index + "}";
             var replaceWith = toReplace.ToSpaces();
 

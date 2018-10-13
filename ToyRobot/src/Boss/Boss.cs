@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using Pipe4Net;
 using ToyRobot.Command;
 using ToyRobot.misc;
@@ -15,7 +15,8 @@ namespace ToyRobot.Boss
 
         public Boss(ILogger logger, Table.Table table, Robot.Robot robot)
         {
-            Debug.Assert(logger != null && table != null && robot != null);
+            (logger == null || table == null || robot == null)
+                .IfTrue(() => throw new System.Exception("Bad arguments"));
 
             _logger = logger;
             _table = table;
@@ -100,22 +101,27 @@ namespace ToyRobot.Boss
 
         private Command.Command CheckFirstCommand(Command.Command cmd)
         {
-            if (_isFirstCommand)
+            if (false == _isFirstCommand) return cmd;
+
+            if (cmd is PlaceCommand && ValidPlace(cmd))
             {
-                if (cmd is Place)
-                {
-                    _isFirstCommand = false;
+                _isFirstCommand = false;
 
-                    return cmd;
-                }
-
-                _logger.Log(Messages.FirstCommand);
-                _logger.EmptyLine();
-
-                return new ChillOut();
+                return cmd;
             }
 
-            return cmd;
+            _logger.Log(Messages.FirstCommand);
+            _logger.EmptyLine();
+
+            return new ChillOutCommand();
+        }
+
+        private bool ValidPlace(Command.Command cmd)
+        {
+            var _cmd = cmd as PlaceCommand;
+            var validMove = _robot.ValidMove(_cmd.XPosition, _cmd.YPosition);
+
+            return validMove;
         }
 
         private Command.Command CheckIfValidOrder(Command.Command arg)
@@ -125,7 +131,7 @@ namespace ToyRobot.Boss
 
             _logger.Log(Messages.BadCommand);
 
-            return new ChillOut();
+            return new ChillOutCommand();
         }
     }
 }

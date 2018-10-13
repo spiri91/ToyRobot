@@ -34,6 +34,8 @@ namespace ToyRobot.Table
 
         public void SwapCells(int oldIndex, int index)
         {
+            if (oldIndex == index) return;
+
             var robotOldIndex = oldIndex;
             var tableCellWithRobotIndex = Cells.Where(c => c.YouEmpty()).Single(x => x.Index == index);
 

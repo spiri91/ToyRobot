@@ -1,15 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using Pipe4Net;
+using System;
+using System.Collections.Generic;
 using ToyRobot.misc;
 
 namespace ToyRobot.Command
 {
     public abstract class Command
     {
+        public Command()
+        {
+            SetActionOnRobot();
+        }
+
+        protected Action<Robot.Robot> action;
+
         public abstract bool MovingStuff();
 
         public virtual bool YouValid() => true;
        
-        public abstract void OrderRobot(Robot.Robot robot);
+        protected virtual void CheckIfNoRobotAvailable(Robot.Robot robot)
+        {
+            (robot == null).IfTrue(() => throw new Exception("Missing robot"));
+        }
+
+        public void OrderRobot(Robot.Robot robot)
+        {
+            CheckIfNoRobotAvailable(robot);
+
+            action(robot);
+        }
+
+        public abstract void SetActionOnRobot();
     }
 
     public abstract class MutableCommand : Command
@@ -22,72 +43,74 @@ namespace ToyRobot.Command
         public override bool MovingStuff() => false;
     }
 
-    public class Place : MutableCommand
+    public class PlaceCommand : MutableCommand
     {
         public int XPosition { get; private set; }
         public int YPosition { get; private set; }
         public PointsTo PointingTo { get; private set; }
 
-        public Place(PointsTo pointsTo, int xPosition, int yPosition)
+        public PlaceCommand(PointsTo pointsTo, int xPosition, int yPosition)
         {
+            (pointsTo == null).IfTrue(() => throw new System.Exception("Bad Arguments"));
+
             PointingTo = pointsTo;
             XPosition = xPosition;
             YPosition = yPosition;
         }
 
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.ChangeCoords(XPosition, YPosition, PointingTo);
+            this.action = (robot) => robot.ChangeCoords(XPosition, YPosition, PointingTo);
         }
     }
 
-    public class GoLeft : ImutableCommand
+    public class GoLeftCommand : ImutableCommand
     {
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.GoLeft();
+            this.action = robot => robot.GoLeft();
         }
     }
 
-    public class GoRight : ImutableCommand
+    public class GoRightCommand : ImutableCommand
     {
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.GoRight();
+           this.action = robot => robot.GoRight();
         }
     }
 
-    public class Report : ImutableCommand
+    public class ReportCommand : ImutableCommand
     {
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.Shout();
+           this.action = robot => robot.Shout();
         }
     }
 
-    public class Move : MutableCommand
+    public class MoveCommand : MutableCommand
     {
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.Move();
+           this.action = robot => robot.Move();
         }
     }
 
     public class BadCommand : ImutableCommand
     {
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.Curse();
+           this.action = robot => robot.Curse();
         }
 
         public override bool YouValid() => false;
     }
 
-    public class ChillOut : ImutableCommand
+    public class ChillOutCommand : ImutableCommand
     {
-        public override void OrderRobot(Robot.Robot robot)
+        public override void SetActionOnRobot()
         {
-            robot.Chill();
+           this.action = robot => robot.Chill();
         }
     }
 
@@ -96,6 +119,7 @@ namespace ToyRobot.Command
         public static Command Parse(string commandAsString)
         {
             var arguments = commandAsString.Split(' ');
+            arguments = RemoveEmtpyCommands(arguments);
 
             if (false == ArgsAreValid(arguments)) return new BadCommand();
 
@@ -105,28 +129,42 @@ namespace ToyRobot.Command
             return ParseMoveCommand(arguments[0]);
         }
 
+        private static string[] RemoveEmtpyCommands(string[] arguments)
+        {
+            var result = new List<string>();
+
+            arguments.ForEach(x =>
+            {
+                if (string.IsNullOrWhiteSpace(x)) return;
+
+                result.Add(x.Trim().ToLower());
+            });
+
+            return result.ToArray();
+        }
+
         private static Command ParseMoveCommand(string argument)
         {
-            argument = argument.Trim().ToLower();
+            argument = argument;
 
             switch (argument)
             {
-                case "move": case "m": return new Move();
-                case "right": case "r": return new GoRight();
-                case "left": case "l": return new GoLeft();
-                case "report": case "re": return new Report();
+                case "move": case "m": return new MoveCommand();
+                case "right": case "r": return new GoRightCommand();
+                case "left": case "l": return new GoLeftCommand();
+                case "report": case "re": return new ReportCommand();
 
-                default: return new ChillOut();
+                default: return new ChillOutCommand();
             }
         }
 
         private static Command ParsePlaceCommand(string[] arguments)
         {
-            Cardinal cardinal = GetCardinal(arguments[3].Trim().ToLower());
+            Cardinal cardinal = GetCardinal(arguments[3]);
 
-            return new Place(new PointsTo(cardinal), 
-                int.Parse(arguments[1].Trim()),
-                int.Parse(arguments[2].Trim()));
+            return new PlaceCommand(new PointsTo(cardinal), 
+                int.Parse(arguments[1]),
+                int.Parse(arguments[2]));
         }
 
         private static Cardinal GetCardinal(string toLower)
@@ -170,7 +208,7 @@ namespace ToyRobot.Command
                 "re"
             };
 
-            if (listOfValidCommands.IndexOf(arguments[0].Trim().ToLower()) == -1) return false;
+            if (listOfValidCommands.IndexOf(arguments[0]) == -1) return false;
 
             return true;
         }
@@ -179,7 +217,7 @@ namespace ToyRobot.Command
         {
             var validCardinals = new List<string> {"s", "w", "n", "e"};
 
-            if (validCardinals.IndexOf(s.Trim().ToLower()) == -1) return false;
+            if (validCardinals.IndexOf(s) == -1) return false;
 
             return true;
         }

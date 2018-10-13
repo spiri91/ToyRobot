@@ -6,6 +6,8 @@ namespace ToyRobot.misc
     {
         public static string ToSpaces(this string value)
         {
+            value = value ?? string.Empty;
+
             var length = value.Length;
             var toReturn = "";
 

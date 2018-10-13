@@ -19,9 +19,9 @@ namespace ToyRobot.Robot
 
         public event EventHandler<StringEventsArgs> Complain;
 
-        public Func<int, int, bool> IsValidMove;
+        private Func<int, int, bool> IsValidMove { get; set; }
 
-        public Func<int, int, int> CalculateIndex { get; set; }
+        private Func<int, int, int> CalculateIndex { get; set; }
 
         private bool _moved;
 
@@ -53,7 +53,7 @@ namespace ToyRobot.Robot
             _moved = true;
         }
 
-        private bool Valid(int xIndex, int yIndex)
+        public bool ValidMove(int xIndex, int yIndex)
         {
             return IsValidMove(xIndex, yIndex);
         }
@@ -106,7 +106,7 @@ namespace ToyRobot.Robot
                     break;
             }
 
-            if (Valid(xIndex, yIndex))
+            if (ValidMove(xIndex, yIndex))
             {
                 XIndex = xIndex;
                 YIndex = yIndex;
@@ -116,7 +116,7 @@ namespace ToyRobot.Robot
             else BadMove();
 
         }
-
+        
         private void BadMove()
         {
             _moved = false;
@@ -129,7 +129,7 @@ namespace ToyRobot.Robot
 
         public void ChangeCoords(int xPosition, int yPosition, PointsTo pointingTo)
         {
-            if (Valid(xPosition, yPosition))
+            if (ValidMove(xPosition, yPosition))
             {
                 XIndex = xPosition;
                 YIndex = yPosition;

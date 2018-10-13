@@ -17,7 +17,7 @@
         ";
 
         public const string Robot = @"
-
+                                   /\
                            _(\    |@@|
                           (__/\__ \--/ __
                              \___|----|  |   __
@@ -58,6 +58,6 @@
 
         public static string BadCommand = "Didn't get that.. try again..";
 
-        public static string FirstCommand = "First command should be a place command";
+        public static string FirstCommand = "First command should be a valid place command";
     }
 }

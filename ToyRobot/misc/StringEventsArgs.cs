@@ -8,7 +8,7 @@ namespace ToyRobot.misc
 
         public StringEventsArgs(string value)
         {
-            Value = value;
+            Value = value ?? string.Empty;
         }
 
         public override string ToString()

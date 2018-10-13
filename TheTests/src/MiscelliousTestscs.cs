@@ -46,5 +46,38 @@ namespace TheTests
 
             Assert.True(new PointsTo(Cardinal.Nowhere).GetLeftDirection().Cardinal == Cardinal.Nowhere);
         }
+
+        [Fact]
+        public void Should_Construct_StringEventArgs()
+        {
+            new StringEventsArgs("test");
+            new StringEventsArgs(null);
+        }
+
+        [Fact]
+        public void Should_ToString_StringEventArgs()
+        {
+            var test = new StringEventsArgs("test").ToString();
+            var test2 = new StringEventsArgs(null).ToString();
+
+            Assert.True("test" == test);
+            Assert.True(string.Empty == test2);
+        }
+
+        [Fact]
+        public void Should_ToSpaces_A_String()
+        {
+            var test1 = "1234";
+            var test2 = "1";
+            var test3 = string.Empty;
+            var test4 = "123456789";
+            string test5 = null; 
+
+            Assert.True(test1.ToSpaces() == "    ");
+            Assert.True(test2.ToSpaces() == " ");
+            Assert.True(test3.ToSpaces() == string.Empty);
+            Assert.True(test4.ToSpaces() == "         ");
+            Assert.True(test5.ToSpaces() == string.Empty);
+        }
     }
 }
