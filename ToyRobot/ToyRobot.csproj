@@ -6,8 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="lib\" />
-    <Folder Include="test\" />
+    <Compile Remove="lib\**" />
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="lib\**" />
+    <None Remove="test\**" />
   </ItemGroup>
 
   <ItemGroup>

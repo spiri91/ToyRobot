@@ -33,5 +33,16 @@ namespace BringChaos.src
             Assert.True(sut.XPosition == 3);
             Assert.True(sut.YPosition == 4);
         }
+
+        [Fact]
+        public void Should_Parse_String_Commands()
+        {
+            var res = CommandParser.Parse("Place 3 4 n");
+            Assert.True(res is PlaceCommand);
+
+            Assert.True((res as PlaceCommand).XPosition == 3);
+            Assert.True((res as PlaceCommand).YPosition == 4);
+            Assert.True((res as PlaceCommand).PointingTo.Cardinal == ToyRobot.misc.Cardinal.North);
+        }
     }
 }

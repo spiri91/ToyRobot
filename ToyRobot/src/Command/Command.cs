@@ -145,8 +145,6 @@ namespace ToyRobot.Command
 
         private static Command ParseMoveCommand(string argument)
         {
-            argument = argument;
-
             switch (argument)
             {
                 case "move": case "m": return new MoveCommand();
