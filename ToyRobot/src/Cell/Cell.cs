@@ -4,18 +4,16 @@ namespace ToyRobot.Cell
 {
     public abstract class Cell
     {
-        private static int _index;
-
-        public Cell()
-        {
-            _index++;
-
-            Index = _index;
-        }
-
         public int Index { get; protected set; }
 
-        public virtual string DrawYourself(string str)
+        public Cell(int index)
+        {
+            BeforeCreationChecks();
+
+            this.Index = index;
+        }
+
+        public virtual string DrawYourselfInTable(string str)
         {
             str = str ?? string.Empty;
 
@@ -33,5 +31,10 @@ namespace ToyRobot.Cell
         }
 
         public abstract bool YouEmpty();
+
+        public virtual void BeforeCreationChecks()
+        {
+
+        }
     }
 }

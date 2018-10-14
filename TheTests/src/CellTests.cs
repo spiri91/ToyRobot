@@ -9,19 +9,19 @@ namespace BringChaos.src
         [Fact]
         public void Should_Construct_Empty_Cell()
         {
-            new EmptyCell();
+            new EmptyCell(1);
         }
 
         [Fact] 
         public void Should_Return_True_When_Asked_If_Empty()
         {
-            Assert.True(new EmptyCell().YouEmpty());
+            Assert.True(new EmptyCell(1).YouEmpty());
         }
 
         [Fact]
         public void Should_Change_Index()
         {
-            var cell = new EmptyCell();
+            var cell = new EmptyCell(1);
             cell.SetIndex(3);
             Assert.True(cell.Index == 3);
         }
@@ -31,15 +31,15 @@ namespace BringChaos.src
         {
             var testStr = "{99}";
 
-            var cell = new EmptyCell();
+            var cell = new EmptyCell(1);
             cell.SetIndex(99);
             
-            Assert.True(cell.DrawYourself(testStr) == testStr.ToSpaces());
+            Assert.True(cell.DrawYourselfInTable(testStr) == testStr.ToSpaces());
 
             cell.SetIndex(8);
             testStr = "{8}";
 
-            Assert.True(cell.DrawYourself(testStr) == testStr.ToSpaces());
+            Assert.True(cell.DrawYourselfInTable(testStr) == testStr.ToSpaces());
         }
     }
 }

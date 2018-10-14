@@ -1,5 +1,4 @@
-﻿using System;
-using Pipe4Net;
+﻿using Pipe4Net;
 using ToyRobot.Command;
 using ToyRobot.misc;
 using ToyRobot.src.Logger;
@@ -61,6 +60,7 @@ namespace ToyRobot.Boss
         public void TakeOver()
         {
             ShowTemplate();
+
             while (true)
             {
                 var commandAsString = _logger.ReadCommand();
@@ -119,15 +119,15 @@ namespace ToyRobot.Boss
         private bool ValidPlace(Command.Command cmd)
         {
             var _cmd = cmd as PlaceCommand;
-            var validMove = _robot.ValidMove(_cmd.XPosition, _cmd.YPosition);
+            var validMove = _robot.IsThisMoveValid(_cmd.XPosition, _cmd.YPosition);
 
             return validMove;
         }
 
-        private Command.Command CheckIfValidOrder(Command.Command arg)
+        private Command.Command CheckIfValidOrder(Command.Command command)
         {
-            if (arg.YouValid())
-                return arg;
+            if (command.YouValid())
+                return command;
 
             _logger.Log(Messages.BadCommand);
 

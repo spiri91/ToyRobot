@@ -17,8 +17,4 @@
     <ProjectReference Include="..\ToyRobot\ToyRobot.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="src\Chaos\" />
-  </ItemGroup>
-
 </Project>

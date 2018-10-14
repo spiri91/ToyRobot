@@ -26,7 +26,7 @@ namespace ToyRobot.Table
 
             foreach (var cell in Cells)
             {
-                table = cell.DrawYourself(table);
+                table = cell.DrawYourselfInTable(table);
             }
 
             _logger.Log(table);

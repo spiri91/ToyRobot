@@ -30,7 +30,7 @@ namespace ToyRobot.Orchestrator
 
         private static Func<int, int, int> _calculateIndex = (xIndex, yIndex) =>
         {
-            var newIndex = xIndex + 5 * (yIndex - 1);
+            var newIndex = xIndex + _rowAndColumMaxIndex * (yIndex - 1);
 
             return newIndex;
         };
@@ -38,9 +38,10 @@ namespace ToyRobot.Orchestrator
         public Orchestrator(ILogger logger)
         {
             var cells = new List<Cell.Cell>();
-            _numberOfCells.GenerateForLoop(() => cells.Add(new EmptyCell()));
+            var index = 1;
+            _numberOfCells.GenerateForLoop(() => { cells.Add(new EmptyCell(index)); index++; });
 
-            var robot = new Robot.Robot(_validMove, _calculateIndex);
+            var robot = new Robot.Robot(index, _validMove, _calculateIndex);
             cells.Add(robot);
 
             var table = new Table.Table(logger, cells);

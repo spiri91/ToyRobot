@@ -25,14 +25,14 @@ namespace ToyRobot.Robot
 
         private bool _moved;
 
-        public Robot(Func<int, int, bool> validMove, Func<int, int, int> calculateIndex)
+        public Robot(int index, Func<int, int, bool> validMove, Func<int, int, int> calculateIndex) : base(index)
         {
             _lastPositons = new List<int>();
             IsValidMove = validMove;
             CalculateIndex = calculateIndex;
         }
 
-        public override string DrawYourself(string str)
+        public override string DrawYourselfInTable(string str)
         {
             var toReplace = "{" + Index + "}";
             var replaceWith = Index > 9 ? Messages.CellRobot + " " : Messages.CellRobot;
@@ -53,7 +53,7 @@ namespace ToyRobot.Robot
             _moved = true;
         }
 
-        public bool ValidMove(int xIndex, int yIndex)
+        public bool IsThisMoveValid(int xIndex, int yIndex)
         {
             return IsValidMove(xIndex, yIndex);
         }
@@ -74,7 +74,7 @@ namespace ToyRobot.Robot
 
         internal void Shout()
         {
-            Complain?.Invoke(this, new StringEventsArgs($"x: {XIndex}\t y: {YIndex}\t p:{Direction}"));
+            Complain?.Invoke(this, new StringEventsArgs($"x: {XIndex}\t y: {YIndex}\t orientation: {Direction}"));
         }
 
         internal void Curse()
@@ -106,7 +106,7 @@ namespace ToyRobot.Robot
                     break;
             }
 
-            if (ValidMove(xIndex, yIndex))
+            if (IsThisMoveValid(xIndex, yIndex))
             {
                 XIndex = xIndex;
                 YIndex = yIndex;
@@ -129,7 +129,7 @@ namespace ToyRobot.Robot
 
         public void ChangeCoords(int xPosition, int yPosition, PointsTo pointingTo)
         {
-            if (ValidMove(xPosition, yPosition))
+            if (IsThisMoveValid(xPosition, yPosition))
             {
                 XIndex = xPosition;
                 YIndex = yPosition;
